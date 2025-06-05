@@ -1,4 +1,4 @@
-package com.example.helloandroid.data
+package com.example.learncr.data
 
 object CardData {
     val cardCosts: Map<String, Int> = mapOf(

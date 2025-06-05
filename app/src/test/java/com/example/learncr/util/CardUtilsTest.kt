@@ -12,7 +12,50 @@ class CardUtilsTest {
 
     @Test
     fun testNameWithPunctuation() {
-        assertEquals("mini-p.e.k.k.a.png", formatCardNameToImageFilename("Mini P.E.K.K.A"))
+        // "Mini P.E.K.K.A" -> trim -> "Mini P.E.K.K.A" -> no periods "Mini PEKKA" -> lc "mini pekka" -> repl "mini-pekka" -> trimH "mini-pekka"
+        assertEquals("mini-pekka.png", formatCardNameToImageFilename("Mini P.E.K.K.A"))
+    }
+
+    @Test
+    fun testPEKKA() {
+        // "P.E.K.K.A" -> "PEKKA" -> "pekka" -> "pekka" -> "pekka"
+        assertEquals("pekka.png", formatCardNameToImageFilename("P.E.K.K.A"))
+    }
+
+    @Test
+    fun testLeadingTrailingPeriods() {
+        // ".Elite Barbarians." -> "Elite Barbarians" -> "elite barbarians" -> "elite-barbarians" -> "elite-barbarians"
+        assertEquals("elite-barbarians.png", formatCardNameToImageFilename(".Elite Barbarians."))
+    }
+
+    @Test
+    fun testPeriodsNoSpaces() {
+        // "Three.Musketeers" -> "ThreeMusketeers" -> "threemusketeers" -> "threemusketeers" -> "threemusketeers"
+        assertEquals("threemusketeers.png", formatCardNameToImageFilename("Three.Musketeers"))
+    }
+
+    @Test
+    fun testPeriodsWithSpaces() {
+        // "Three. Musketeers" -> "Three Musketeers" -> "three musketeers" -> "three-musketeers" -> "three-musketeers"
+        assertEquals("three-musketeers.png", formatCardNameToImageFilename("Three. Musketeers"))
+    }
+
+    @Test
+    fun testShortNameWithPeriods() {
+        // "R.G.G." -> "RGG" -> "rgg" -> "rgg" -> "rgg"
+        assertEquals("rgg.png", formatCardNameToImageFilename("R.G.G."))
+    }
+
+    @Test
+    fun testMixedPeriodsAndSpacesAndTrimming() {
+        // "  Mr. T. Rouble " -> trim "Mr. T. Rouble" -> no periods "Mr T Rouble" -> lc "mr t rouble" -> repl "mr-t-rouble" -> trimH "mr-t-rouble"
+        assertEquals("mr-t-rouble.png", formatCardNameToImageFilename("  Mr. T. Rouble "))
+    }
+
+    @Test
+    fun testPeriodsNextToOriginalHyphens() {
+        // "Card-.A.-Name" -> trim "Card-.A.-Name" -> no periods "Card-A-Name" -> lc "card-a-name" -> repl "card-a-name" -> trimH "card-a-name"
+        assertEquals("card-a-name.png", formatCardNameToImageFilename("Card-.A.-Name"))
     }
 
     @Test
